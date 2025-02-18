@@ -14,20 +14,19 @@ const SignaturePage = () => {
     const fetchProgress = async () => {
       try {
         const response = await getSignatureProgress(documentId);
-        setProgression(response.signatures);
+        setProgression(response); // Selon la structure retournée par votre API
       } catch (error) {
-        console.error('Erreur lors de la récupération de l\'état des signatures :', error);
+        console.error('Erreur lors de la récupération des signatures :', error);
       }
     };
-
-    fetchProgress();
+    if (documentId) fetchProgress();
   }, [documentId]);
 
   const saveSignature = async () => {
     const signature = signatureRef.current.getTrimmedCanvas().toDataURL('image/png');
-
+    console.log("Signature récupérée :", signature);
     try {
-      const response = await updateSignature(documentId, { signature });
+      const response = await updateSignature({ documentId, role: 'Étudiant', status: 'Terminé', signature });
       console.log('Signature ajoutée :', response);
       navigate('/confirmation', { state: { fileName, signature } });
     } catch (error) {
@@ -47,6 +46,16 @@ const SignaturePage = () => {
         }}
       />
       <button onClick={saveSignature}>Confirmer la signature</button>
+      <button onClick={() => signatureRef.current.clear()}>Effacer</button>
+      {/* Bouton de test pour afficher la signature dans une nouvelle fenêtre */}
+      <button onClick={() => {
+        const dataURL = signatureRef.current.getTrimmedCanvas().toDataURL('image/png');
+        console.log("Signature en dataURL :", dataURL);
+        const imgWindow = window.open('');
+        imgWindow.document.write(`<img src="${dataURL}" alt="Signature test"/>`);
+      }}>
+        Tester la signature
+      </button>
     </div>
   );
 };
