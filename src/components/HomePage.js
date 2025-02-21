@@ -9,7 +9,7 @@ const HomePage = () => {
   const handleFileUpload = async (event) => {
     const uploadedFile = event.target.files[0];
     if (!uploadedFile) {
-      console.error("Aucun fichier sélectionné");
+      alert("Veuillez sélectionner un fichier PDF.");
       return;
     }
     setFile(uploadedFile);
@@ -17,7 +17,9 @@ const HomePage = () => {
     try {
       const response = await uploadDocument(uploadedFile);
       console.log('Document uploaded successfully:', response);
-      // Redirige vers la page de signature en passant documentId et fileName via location.state
+      // Stocker dans le localStorage pour persistance en cas de rafraîchissement
+      localStorage.setItem('documentId', response.id);
+      localStorage.setItem('fileName', uploadedFile.name);
       navigate('/signature', { state: { documentId: response.id, fileName: uploadedFile.name } });
     } catch (error) {
       console.error("Upload error:", error.response ? error.response.data : error.message);

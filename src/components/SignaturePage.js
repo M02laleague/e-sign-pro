@@ -6,12 +6,14 @@ import { getSignatureProgress, updateSignature } from '../services/api';
 const SignaturePage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  // Utilisation de valeurs par défaut pour éviter les erreurs si location.state est vide
-  const { documentId = 'default-doc', fileName = 'default.pdf' } = location.state || {};
+
+  // Récupération des données depuis location.state ou localStorage
+  const documentId = location.state?.documentId || localStorage.getItem('documentId') || 'default-doc';
+  const fileName = location.state?.fileName || localStorage.getItem('fileName') || 'default.pdf';
+
   const [progression, setProgression] = useState([]);
   const signatureRef = useRef(null);
 
-  // Debug : affichage des données reçues
   console.log('Location state:', location.state);
 
   useEffect(() => {
@@ -19,7 +21,6 @@ const SignaturePage = () => {
       const fetchProgress = async () => {
         try {
           const response = await getSignatureProgress(documentId);
-          // S'assurer que la réponse est un tableau
           setProgression(Array.isArray(response) ? response : []);
         } catch (error) {
           console.error('Error fetching signature progress:', error);
@@ -54,8 +55,8 @@ const SignaturePage = () => {
   return (
     <div className="signature-page" style={{ padding: '20px' }}>
       <h1>Ajoutez votre signature</h1>
-      {/* Affichage de debug pour s'assurer que l'état est bien passé */}
-      <pre>{JSON.stringify(location.state, null, 2)}</pre>
+      {/* Affichage de debug */}
+      <pre>{JSON.stringify({ documentId, fileName }, null, 2)}</pre>
       <div style={{ border: '1px solid #000', marginBottom: '20px' }}>
         <SignatureCanvas
           ref={signatureRef}

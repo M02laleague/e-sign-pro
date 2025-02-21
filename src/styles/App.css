@@ -1,27 +1,27 @@
 body {
-	margin: 0;
-	font-family: Arial, sans-serif;
-	background-color: #f5f5f5;
-  }
-  
-  .homepage,
-  .signature-page,
-  .confirmation-page {
-	padding: 20px;
-  }
-  
-  h1 {
-	color: #333;
-  }
-  
-  button {
-	cursor: pointer;
-	border: none;
-	border-radius: 4px;
-	font-size: 1rem;
-  }
-  
-  .signature-canvas {
-	background-color: #fff;
-  }
-  
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
+}
+
+.homepage,
+.signature-page,
+.confirmation-page {
+  padding: 20px;
+}
+
+h1 {
+  color: #333;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  margin: 5px;
+}
+
+.signature-canvas {
+  background-color: #fff;
+}
