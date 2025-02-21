@@ -8,22 +8,25 @@ const HomePage = () => {
 
   const handleFileUpload = async (event) => {
     const uploadedFile = event.target.files[0];
-    if (!uploadedFile) return;
+    if (!uploadedFile) {
+      console.error("Aucun fichier sélectionné");
+      return;
+    }
     setFile(uploadedFile);
 
     try {
       const response = await uploadDocument(uploadedFile);
       console.log('Document uploaded successfully:', response);
-      // On redirige en passant documentId et fileName via location.state
+      // Redirige vers la page de signature en passant documentId et fileName via location.state
       navigate('/signature', { state: { documentId: response.id, fileName: uploadedFile.name } });
     } catch (error) {
-      console.error("Upload error:", error);
+      console.error("Upload error:", error.response ? error.response.data : error.message);
       alert("Erreur lors de l'upload du document. Veuillez réessayer.");
     }
   };
 
   return (
-    <div className="homepage">
+    <div className="homepage" style={{ padding: '20px' }}>
       <h1>Bienvenue sur E-Sign PRO</h1>
       <form>
         <label>
