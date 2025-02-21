@@ -6,10 +6,14 @@ const ConfirmationPage = () => {
   const { fileName, signature } = location.state || {};
 
   return (
-    <div>
+    <div className="confirmation-page" style={{ padding: '20px' }}>
       <h1>Signature confirmée !</h1>
       <p><strong>Document :</strong> {fileName}</p>
-      <img src={signature} alt="Signature" style={{ width: '300px' }} />
+      {signature ? (
+        <img src={signature} alt="Signature" style={{ width: '300px', border: '1px solid #000' }} />
+      ) : (
+        <p>Aucune signature disponible.</p>
+      )}
       <p>
         <a href={`http://localhost:5000/documents/${fileName}`} target="_blank" rel="noopener noreferrer">
           Télécharger le document finalisé
