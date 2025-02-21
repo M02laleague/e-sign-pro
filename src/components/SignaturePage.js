@@ -6,17 +6,21 @@ import { getSignatureProgress, updateSignature } from '../services/api';
 const SignaturePage = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const { documentId, fileName } = location.state || {};
+  // Si location.state est vide, on utilise des valeurs par défaut pour éviter les erreurs
+  const { documentId = "default-doc", fileName = "default.pdf" } = location.state || {};
   const [progression, setProgression] = useState([]);
   const signatureRef = useRef(null);
 
-  // Récupérer l'état des signatures si un documentId est présent
+  // Affichage pour debug : on affiche l'état reçu via location.state
+  console.log("Données reçues depuis location.state:", location.state);
+
   useEffect(() => {
-    if (documentId) {
+    if (documentId && documentId !== "default-doc") {
       const fetchProgress = async () => {
         try {
           const response = await getSignatureProgress(documentId);
-          setProgression(response); // On suppose que la réponse est un tableau de signatures
+          // On s'assure que la réponse est un tableau
+          setProgression(Array.isArray(response) ? response : []);
         } catch (error) {
           console.error('Erreur lors de la récupération des signatures :', error);
         }
@@ -26,11 +30,11 @@ const SignaturePage = () => {
   }, [documentId]);
 
   const saveSignature = async () => {
-    if (signatureRef.current) {
+    // Vérifier que le canvas n'est pas vide
+    if (signatureRef.current && !signatureRef.current.isEmpty()) {
       const signature = signatureRef.current.getTrimmedCanvas().toDataURL('image/png');
       console.log("Signature récupérée :", signature);
       try {
-        // On simule l'ajout d'une signature pour le rôle "Étudiant"
         const response = await updateSignature({
           documentId,
           role: 'Étudiant',
@@ -40,18 +44,25 @@ const SignaturePage = () => {
         console.log('Signature ajoutée :', response);
         navigate('/confirmation', { state: { fileName, signature } });
       } catch (error) {
+        console.error('Erreur lors de la sauvegarde de la signature:', error);
         alert('Erreur lors de la sauvegarde de la signature. Veuillez réessayer.');
       }
+    } else {
+      alert('Veuillez signer avant de confirmer.');
     }
   };
 
   return (
     <div style={{ padding: '20px' }}>
       <h1>Ajoutez votre signature</h1>
+      {/* Affichage du contenu de location.state pour vérifier qu'il est correctement passé */}
+      <pre>{JSON.stringify(location.state, null, 2)}</pre>
       <div style={{ border: '1px solid #000', marginBottom: '20px' }}>
         <SignatureCanvas
           ref={signatureRef}
           canvasProps={{ width: 500, height: 200, className: 'signature-canvas' }}
+          backgroundColor="#fff"
+          penColor="black"
         />
       </div>
       <div>
@@ -62,7 +73,7 @@ const SignaturePage = () => {
           Confirmer la signature
         </button>
         <button
-          onClick={() => signatureRef.current.clear()}
+          onClick={() => signatureRef.current && signatureRef.current.clear()}
           style={{ padding: '10px', backgroundColor: '#f44336', color: '#fff' }}
         >
           Effacer
