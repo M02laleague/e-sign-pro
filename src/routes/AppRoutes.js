@@ -1,17 +1,20 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 import HomePage from '../components/HomePage';
-import SignaturePage from '../components/SignaturePage';
-import ConfirmationPage from '../components/ConfirmationPage';
+import ESignProPage from '../components/ESignProPage';
+import ContactPage from '../components/ContactPage';
+import AboutPage from '../components/AboutPage';
 
 const AppRoutes = () => {
   return (
     <Router>
+      <Navbar />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/signature" element={<SignaturePage />} />
-        <Route path="/confirmation" element={<ConfirmationPage />} />
-        {/* Route de fallback pour les URL inconnues */}
+        <Route path="/esignpro" element={<ESignProPage />} />
+        <Route path="/contact" element={<ContactPage />} />
+        <Route path="/about" element={<AboutPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>

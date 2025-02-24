@@ -1,41 +1,23 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { uploadDocument } from '../services/api';
+import React from 'react';
 
 const HomePage = () => {
-  const [file, setFile] = useState(null);
-  const navigate = useNavigate();
-
-  const handleFileUpload = async (event) => {
-    const uploadedFile = event.target.files[0];
-    if (!uploadedFile) {
-      alert("Veuillez sélectionner un fichier PDF.");
-      return;
-    }
-    setFile(uploadedFile);
-
-    try {
-      const response = await uploadDocument(uploadedFile);
-      console.log('Document uploaded successfully:', response);
-      // Stocker dans le localStorage pour persistance en cas de rafraîchissement
-      localStorage.setItem('documentId', response.id);
-      localStorage.setItem('fileName', uploadedFile.name);
-      navigate('/signature', { state: { documentId: response.id, fileName: uploadedFile.name } });
-    } catch (error) {
-      console.error("Upload error:", error.response ? error.response.data : error.message);
-      alert("Erreur lors de l'upload du document. Veuillez réessayer.");
-    }
-  };
-
   return (
-    <div className="homepage" style={{ padding: '20px' }}>
-      <h1>Bienvenue sur E-Sign PRO</h1>
-      <form>
-        <label>
-          Upload Document PDF:
-          <input type="file" accept=".pdf" onChange={handleFileUpload} />
-        </label>
-      </form>
+    <div className="min-h-screen bg-gray-100">
+      <div
+        className="bg-cover bg-center h-96"
+        style={{ backgroundImage: "url('https://via.placeholder.com/1500x600')" }}
+      >
+        <div className="flex items-center justify-center h-full bg-gray-900 bg-opacity-50">
+          <h1 className="text-white text-4xl font-bold">Bienvenue sur le site E-sign-Pro</h1>
+        </div>
+      </div>
+      <div className="container mx-auto p-6">
+        <h2 className="text-2xl font-bold mb-4">Découvrez nos services</h2>
+        <p>
+          Notre solution innovante vous permet de gérer vos documents en ligne
+          et de signer électroniquement en toute simplicité.
+        </p>
+      </div>
     </div>
   );
 };

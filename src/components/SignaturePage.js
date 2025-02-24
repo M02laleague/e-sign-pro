@@ -2,16 +2,17 @@ import React, { useRef, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import SignatureCanvas from 'react-signature-canvas';
 import { getSignatureProgress, updateSignature } from '../services/api';
+import Loader from './Loader';
 
 const SignaturePage = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Récupération des données depuis location.state ou localStorage
   const documentId = location.state?.documentId || localStorage.getItem('documentId') || 'default-doc';
   const fileName = location.state?.fileName || localStorage.getItem('fileName') || 'default.pdf';
 
   const [progression, setProgression] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
   const signatureRef = useRef(null);
 
   console.log('Location state:', location.state);
@@ -34,6 +35,7 @@ const SignaturePage = () => {
     if (signatureRef.current && !signatureRef.current.isEmpty()) {
       const signature = signatureRef.current.getTrimmedCanvas().toDataURL('image/png');
       console.log("Signature retrieved:", signature);
+      setIsLoading(true);
       try {
         const response = await updateSignature({
           documentId,
@@ -46,6 +48,8 @@ const SignaturePage = () => {
       } catch (error) {
         console.error('Error updating signature:', error);
         alert('Erreur lors de la sauvegarde de la signature. Veuillez réessayer.');
+      } finally {
+        setIsLoading(false);
       }
     } else {
       alert('Veuillez signer avant de confirmer.');
@@ -79,6 +83,7 @@ const SignaturePage = () => {
           Effacer
         </button>
       </div>
+      {isLoading && <Loader />}
     </div>
   );
 };
