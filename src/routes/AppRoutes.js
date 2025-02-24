@@ -5,6 +5,7 @@ import HomePage from '../components/HomePage';
 import ESignProPage from '../components/ESignProPage';
 import ContactPage from '../components/ContactPage';
 import AboutPage from '../components/AboutPage';
+import LoginPage from '../components/LoginPage';
 
 const AppRoutes = () => {
   return (
@@ -15,6 +16,7 @@ const AppRoutes = () => {
         <Route path="/esignpro" element={<ESignProPage />} />
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/login" element={<LoginPage />} />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </Router>

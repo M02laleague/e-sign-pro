@@ -1,27 +1,151 @@
+/* src/styles/App.css */
+
+/* Police et couleurs de base */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
 body {
   margin: 0;
-  font-family: Arial, sans-serif;
-  background-color: #f5f5f5;
-}
-
-.homepage,
-.signature-page,
-.confirmation-page {
-  padding: 20px;
-}
-
-h1 {
+  font-family: 'Roboto', sans-serif;
+  background-color: #f0f4f8;
   color: #333;
 }
 
-button {
-  cursor: pointer;
+/* Navbar */
+.navbar {
+  background-color: #004c8b; /* Bleu Pronote-like */
+  color: #fff;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.navbar .logo {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.navbar ul li a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.navbar ul li a:hover {
+  color: #cce4f7;
+}
+
+/* Container global */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Hero section (Accueil) */
+.hero {
+  background-image: url('https://via.placeholder.com/1500x600');
+  background-size: cover;
+  background-position: center;
+  height: 400px;
+  position: relative;
+}
+
+.hero::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-align: center;
+}
+
+.hero-content h1 {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+/* Boutons */
+.button {
+  padding: 0.75rem 1.5rem;
   border: none;
   border-radius: 4px;
   font-size: 1rem;
-  margin: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
-.signature-canvas {
-  background-color: #fff;
+.button-primary {
+  background-color: #004c8b;
+  color: #fff;
+}
+
+.button-primary:hover {
+  background-color: #003a6f;
+}
+
+.button-danger {
+  background-color: #d9534f;
+  color: #fff;
+}
+
+.button-danger:hover {
+  background-color: #c9302c;
+}
+
+/* Loader */
+.loader-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.loader {
+  border: 8px solid #e0e0e0;
+  border-top: 8px solid #004c8b;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Sections pour pages spécifiques */
+.page-section {
+  background: #fff;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
