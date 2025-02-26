@@ -10,6 +10,7 @@ const ESignProPage = () => {
   const [documentId, setDocumentId] = useState('');
   const [fileName, setFileName] = useState('');
   const [signature, setSignature] = useState('');
+  
   const signatureRef = useRef(null);
 
   const handleUpload = async (event) => {
@@ -26,7 +27,7 @@ const ESignProPage = () => {
       setFileName(uploadedFile.name);
       setStep('sign');
     } catch (error) {
-      alert("Erreur lors de l'upload du document. Veuillez réessayer.");
+      alert("Erreur lors de l'upload du document. Détails : " + error.message);
     } finally {
       setIsLoading(false);
     }
@@ -46,7 +47,7 @@ const ESignProPage = () => {
         setSignature(sig);
         setStep('confirm');
       } catch (error) {
-        alert("Erreur lors de la sauvegarde de la signature. Veuillez réessayer.");
+        alert("Erreur lors de la sauvegarde de la signature. Détails : " + error.message);
       } finally {
         setIsLoading(false);
       }
@@ -56,7 +57,7 @@ const ESignProPage = () => {
   };
 
   return (
-    <div className="container" style={{ padding: '20px' }}>
+    <div className="container">
       <h1>E-Sign Pro</h1>
       
       {step === 'upload' && (
@@ -77,8 +78,12 @@ const ESignProPage = () => {
               penColor="black"
             />
           </div>
-          <button className="button button-danger" onClick={() => signatureRef.current.clear()}>Effacer</button>
-          <button className="button button-primary" onClick={handleSign}>Confirmer la signature</button>
+          <button className="button button-danger" onClick={() => signatureRef.current.clear()}>
+            Effacer
+          </button>
+          <button className="button button-primary" onClick={handleSign}>
+            Confirmer la signature
+          </button>
         </div>
       )}
       
@@ -86,7 +91,7 @@ const ESignProPage = () => {
         <div className="page-section">
           <h2>Confirmation</h2>
           <p><strong>Document :</strong> {fileName}</p>
-          {signature && <img src={signature} alt="Signature" />}
+          {signature && <img src={signature} alt="Signature" style={{ width: '300px', border: '1px solid #000' }} />}
           <p>
             <a className="button button-primary" href={`http://localhost:5000/documents/${fileName}`} target="_blank" rel="noopener noreferrer">
               Télécharger le document finalisé

@@ -12,8 +12,7 @@ const HomePage = () => {
         <div className="page-section">
           <h2>Découvrez nos services</h2>
           <p>
-            Notre solution innovante vous permet de gérer vos documents en ligne
-            et de signer électroniquement en toute simplicité.
+            Notre solution innovante vous permet de gérer vos documents en ligne et de signer électroniquement en toute simplicité.
           </p>
         </div>
       </div>
